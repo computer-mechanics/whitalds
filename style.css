@@ -1,0 +1,199 @@
+/* Whitalds — holding page */
+
+:root {
+  /* palette derived from the Whitalds logo */
+  --brand: #6a2c91;          /* logo purple          */
+  --brand-deep: #4a1d6b;     /* deep purple          */
+  --bg: #fbfaff;             /* tinted off-white     */
+  --ink: #241b33;            /* near-black           */
+  --muted: #6f6880;          /* muted gray           */
+  --line: rgba(106, 44, 145, 0.55);
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Manrope", "Segoe UI", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------------------------------- pattern ---------------------------------- */
+
+.pattern {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* oversized layers so the slow drift never exposes an edge */
+.pattern__layer {
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  bottom: -120px;
+  left: -120px;
+  width: calc(100% + 240px);
+  height: calc(100% + 240px);
+}
+
+.pattern__layer .icon {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pattern__layer--large .icon {
+  opacity: 0.17;
+}
+
+.pattern__layer--large {
+  animation: drift-a 90s linear infinite alternate;
+}
+
+.pattern__layer--small .icon {
+  opacity: 0.1;
+}
+
+.pattern__layer--small {
+  animation: drift-b 65s linear infinite alternate;
+}
+
+.pattern__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(90vw, 900px);
+  height: min(90vw, 900px);
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(106, 44, 145, 0.08) 0%, rgba(251, 250, 255, 0) 62%);
+}
+
+@keyframes drift-a {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-90px, -50px, 0); }
+}
+
+@keyframes drift-b {
+  from { transform: translate3d(-70px, -40px, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pattern__layer--large,
+  .pattern__layer--small {
+    animation: none;
+  }
+}
+
+/* ------------------------------------ hero ----------------------------------- */
+
+.hero {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 48px 24px;
+}
+
+.hero__inner {
+  max-width: 620px;
+  text-align: center;
+  animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__inner {
+    animation: none;
+  }
+}
+
+.hero__logo {
+  display: block;
+  width: min(420px, 78vw);
+  height: auto;
+  margin: 0 auto 40px;
+  filter: drop-shadow(0 10px 30px rgba(74, 29, 107, 0.14));
+}
+
+.hero__eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 18px;
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.4rem, 6vw, 3.9rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-bottom: 22px;
+}
+
+.hero__copy {
+  font-size: clamp(1rem, 2.2vw, 1.125rem);
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 46ch;
+  margin: 0 auto 30px;
+}
+
+.hero__soon {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brand-deep);
+  padding: 12px 26px;
+  border: 1px solid rgba(106, 44, 145, 0.3);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(4px);
+}
+
+/* ----------------------------------- footer ---------------------------------- */
+
+.footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 20px 24px 28px;
+  font-size: 13px;
+  color: var(--muted);
+}
