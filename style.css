@@ -48,18 +48,19 @@ body {
   pointer-events: none;
 }
 
-/* oversized layers so the slow drift never exposes an edge */
-.pattern__layer {
+/* scattered icon layers — JS places each icon; oversized so drift
+   and parallax never expose an edge */
+.layer {
   position: absolute;
-  top: -120px;
-  right: -120px;
-  bottom: -120px;
-  left: -120px;
-  width: calc(100% + 240px);
-  height: calc(100% + 240px);
+  top: -140px;
+  right: -140px;
+  bottom: -140px;
+  left: -140px;
+  will-change: transform;
 }
 
-.pattern__layer .icon {
+.scatter-icon {
+  position: absolute;
   fill: none;
   stroke: var(--line);
   stroke-width: 1.4;
@@ -67,20 +68,12 @@ body {
   stroke-linejoin: round;
 }
 
-.pattern__layer--large .icon {
-  opacity: 0.17;
+.layer--far .scatter-icon {
+  stroke: rgba(106, 44, 145, 0.16);
 }
 
-.pattern__layer--large {
-  animation: drift-a 90s linear infinite alternate;
-}
-
-.pattern__layer--small .icon {
-  opacity: 0.1;
-}
-
-.pattern__layer--small {
-  animation: drift-b 65s linear infinite alternate;
+.layer--near .scatter-icon {
+  stroke: rgba(106, 44, 145, 0.26);
 }
 
 .pattern__glow {
@@ -93,20 +86,9 @@ body {
   background: radial-gradient(circle, rgba(106, 44, 145, 0.08) 0%, rgba(251, 250, 255, 0) 62%);
 }
 
-@keyframes drift-a {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(-90px, -50px, 0); }
-}
-
-@keyframes drift-b {
-  from { transform: translate3d(-70px, -40px, 0); }
-  to   { transform: translate3d(0, 0, 0); }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .pattern__layer--large,
-  .pattern__layer--small {
-    animation: none;
+  .layer {
+    transform: none !important;
   }
 }
 
