@@ -65,13 +65,20 @@
 
   <main class="hero">
     <div class="hero__inner">
-      <img class="hero__logo" src="assets/logo.png" alt="Whitalds" width="1535" height="580" />
+      <picture>
+        <source srcset="assets/logo.webp" type="image/webp" />
+        <img class="hero__logo" src="assets/logo.png" alt="Whitalds" width="1535" height="580" />
+      </picture>
       <p class="hero__eyebrow">Residential Lettings &amp; Property Management</p>
       <h1 class="hero__title">Our new home<br />is almost ready.</h1>
-      <p class="hero__copy">
-        Whitalds is a lettings agency specialsing in rental homes, matching great tenants
-        with great properties, and caring for both.
+      <p class="hero__copy hero__contact">
+        Talk to us about your next home<br />
+        <a id="contact-email" class="contact-link" data-e="aGVsbG9Ad2hpdGFsZHMuY29t" aria-label="Email Whitalds"><span aria-hidden="true">hello [at] whitalds [dot] com</span></a><br />
+        <a id="contact-phone" class="contact-link" data-p="MDEyMTQ2MTQwOTI=" aria-label="Call Whitalds on 0121 461 4092"><span aria-hidden="true">0121<i class="obf">78</i> 461<i class="obf">5</i> 4092</span></a>
       </p>
+      <noscript>
+        <p class="hero__copy">Email hello [at] whitalds [dot] com or call 0121 461 4092.</p>
+      </noscript>
       <p class="hero__soon">Please check back soon</p>
     </div>
   </main>
@@ -79,6 +86,25 @@
   <footer class="footer">
     <span>© Whitalds Ltd</span>
   </footer>
+
+  <!-- Assemble contact links at runtime so the raw address/number never
+       appears in the page source (basic anti-scraper obfuscation) -->
+  <script>
+    (function () {
+      var email = document.getElementById('contact-email');
+      if (email) {
+        var addr = atob(email.getAttribute('data-e'));
+        email.href = 'mailto:' + addr;
+        email.textContent = addr;
+      }
+      var phone = document.getElementById('contact-phone');
+      if (phone) {
+        var num = atob(phone.getAttribute('data-p'));
+        phone.href = 'tel:+44' + num.slice(1);
+        phone.textContent = num.replace(/(\d{4})(\d{3})(\d{4})/, '$1 $2 $3');
+      }
+    })();
+  </script>
 
 </body>
 </html>
