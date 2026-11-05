@@ -66,8 +66,10 @@
   <main class="hero">
     <div class="hero__inner">
       <picture>
-        <source srcset="assets/logo.webp" type="image/webp" />
-        <img class="hero__logo" src="assets/logo.webp" alt="Whitalds" width="1535" height="580" />
+        <source type="image/webp"
+                srcset="assets/logo-420.webp 420w, assets/logo-840.webp 840w, assets/logo.webp 1535w"
+                sizes="(max-width: 540px) 78vw, 420px" />
+        <img class="hero__logo" src="assets/logo.webp" alt="Whitalds" width="1535" height="580" fetchpriority="high" decoding="async" />
       </picture>
       <p class="hero__eyebrow">Residential Lettings &amp; Property Management</p>
       <h1 class="hero__title">Our new home<br />is almost ready.</h1>
@@ -86,25 +88,6 @@
   <footer class="footer">
     <span>© Whitalds Ltd</span>
   </footer>
-
-  <!-- Assemble contact links at runtime so the raw address/number never
-       appears in the page source (basic anti-scraper obfuscation) -->
-  <script>
-    (function () {
-      var email = document.getElementById('contact-email');
-      if (email) {
-        var addr = atob(email.getAttribute('data-e'));
-        email.href = 'mailto:' + addr;
-        email.textContent = addr;
-      }
-      var phone = document.getElementById('contact-phone');
-      if (phone) {
-        var num = atob(phone.getAttribute('data-p'));
-        phone.href = 'tel:+44' + num.slice(1);
-        phone.textContent = num.replace(/(\d{4})(\d{3})(\d{4})/, '$1 $2 $3');
-      }
-    })();
-  </script>
 
 </body>
 </html>

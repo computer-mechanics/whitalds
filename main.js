@@ -102,3 +102,20 @@
     requestAnimationFrame(frame);
   }
 })();
+
+/* Assemble contact links at runtime so the raw address/number never
+   appears in the page source (basic anti-scraper obfuscation) */
+(() => {
+  const email = document.getElementById("contact-email");
+  if (email) {
+    const addr = atob(email.getAttribute("data-e"));
+    email.href = "mailto:" + addr;
+    email.textContent = addr;
+  }
+  const phone = document.getElementById("contact-phone");
+  if (phone) {
+    const num = atob(phone.getAttribute("data-p"));
+    phone.href = "tel:+44" + num.slice(1);
+    phone.textContent = num.replace(/(\d{4})(\d{3})(\d{4})/, "$1 $2 $3");
+  }
+})();
